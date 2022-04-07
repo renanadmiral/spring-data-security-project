@@ -17,9 +17,14 @@ public class CustomerController {
     @Autowired
     CustomerRepository customerRepository;
 
-    @GetMapping
-    public CustomerDTO getCustomers(){
-        return CustomerDTO.convert(
-                customerRepository.findById(1L).get());
+    // @GetMapping
+    // public CustomerDTO getCustomers(){
+    //     return CustomerDTO.convert(
+    //             customerRepository.findById(1L).get());
+    // }
+
+    @GetMapping("/ok")
+    public String sendOk() {
+        return "OK";
     }
 }
