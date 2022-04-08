@@ -1,16 +1,16 @@
-package br.com.letscode.dataproject.customer.dto;
+package br.com.letscode.dataproject.purchase.dto;
 
-import br.com.letscode.dataproject.product.model.Product;
+import br.com.letscode.dataproject.customer.dto.CustomerProductDTO;
 import br.com.letscode.dataproject.purchaseproduct.model.PurchaseProduct;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class CustomerPurchaseProductDTO {
+public class PurchaseProductDTO {
     private CustomerProductDTO product;
 
-    public static CustomerPurchaseProductDTO convert(PurchaseProduct purchaseProduct) {
-        CustomerPurchaseProductDTO dto = new CustomerPurchaseProductDTO();
+    public static PurchaseProductDTO convert(PurchaseProduct purchaseProduct) {
+        PurchaseProductDTO dto = new PurchaseProductDTO();
         dto.setProduct(CustomerProductDTO.convert(purchaseProduct.getProduct()));
         dto.getProduct().setAmmountSold(purchaseProduct.getAmmountSold());
         return dto;

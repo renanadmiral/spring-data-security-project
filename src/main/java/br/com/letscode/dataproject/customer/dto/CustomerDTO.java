@@ -1,7 +1,7 @@
 package br.com.letscode.dataproject.customer.dto;
 
 import br.com.letscode.dataproject.customer.model.Customer;
-import br.com.letscode.dataproject.purchase.model.Purchase;
+import br.com.letscode.dataproject.purchase.dto.PurchaseDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +14,7 @@ public class CustomerDTO {
     private String name;
     private String registrationNumber;
     private Calendar birthDate;
-    private List<CustomerPurchaseDTO> purchases;
+    private List<PurchaseDTO> purchases;
 
     public static CustomerDTO convert(Customer customer) {
         CustomerDTO dto = new CustomerDTO();
@@ -23,7 +23,7 @@ public class CustomerDTO {
         dto.setBirthDate(customer.getBirthDate());
         dto.setPurchases(customer.getPurchases()
                 .stream()
-                .map(CustomerPurchaseDTO::convert)
+                .map(PurchaseDTO::convert)
                 .collect(Collectors.toList())
         );
         return dto;
