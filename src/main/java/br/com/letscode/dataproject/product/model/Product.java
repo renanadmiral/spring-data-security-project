@@ -14,23 +14,23 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(
-            nullable = false,
-            unique = true,
-            columnDefinition = "char(10) check(length(code_number) = 10)"
-    )
+//     @Column(
+//             nullable = false,
+//             unique = true,
+//             columnDefinition = "char(13) check(length(code_number) = 10)"
+//     )
     private String codeNumber;
 
-    @Column(
-            nullable = false,
-            columnDefinition = "float check(price > 0)"
-    )
+//     @Column(
+//             nullable = false,
+//             columnDefinition = "float check(price > 0)"
+//     )
     private BigDecimal price;
 
-    @Column(nullable = false,
-            columnDefinition = "int8 check(quantity >= 0)"
-    )
-    private Long quantity;
+//     @Column(nullable = false,
+//             columnDefinition = "int8 check(quantity >= 0)"
+//     )
+    private Integer quantity;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PurchaseProduct> purchaseProductList;
