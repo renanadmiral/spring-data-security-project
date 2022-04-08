@@ -1,6 +1,7 @@
 package br.com.letscode.dataproject.purchase.controller;
 
 import br.com.letscode.dataproject.purchase.dto.PurchaseDTO;
+import br.com.letscode.dataproject.purchase.dto.request.RequestPurchaseDTO;
 import br.com.letscode.dataproject.purchase.service.PurchaseService;
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +28,7 @@ public class PurchaseController {
     }
 
     @PostMapping
-    public PurchaseDTO createPurchase(@RequestBody PurchaseDTO purchase) {
+    public PurchaseDTO createPurchase(@RequestBody RequestPurchaseDTO purchase) {
         return purchaseService.createPurchase(purchase);
     }
 }

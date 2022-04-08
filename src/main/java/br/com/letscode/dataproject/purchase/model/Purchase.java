@@ -11,20 +11,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-@Getter
+@Getter @Setter
 @Entity(name = "purchase")
+@NoArgsConstructor
 @RequiredArgsConstructor
 public class Purchase {
     //dados: data da compra, cpf do cliente, o valor total da compra e a lista de produtos que fazem parte da compra.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NonNull
     private Calendar purchaseDate;
 
     @NonNull
-    private BigDecimal value;
+    private Float value;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_customer")
@@ -33,6 +34,6 @@ public class Purchase {
 
     @Setter
     @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Product> purchaseProductList = new ArrayList<>();
+    private List<PurchaseProduct> purchaseProductList = new ArrayList<>();
 
 }

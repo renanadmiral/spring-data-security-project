@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PurchaseDTO {
     private Calendar purchaseDate;
-    private BigDecimal value;
+    private Float value;
     private CustomerPurchaseDTO customerPurchase;
     private List<PurchaseProductDTO> productsSold;
 
