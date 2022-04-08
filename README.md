@@ -1,7 +1,7 @@
 # spring-data-security-project
 This project was made for Let's Code programming school. It was made a REST API with Spring Data JPA for data persistence and Spring Security for authentication.
 
-ROUTES:
+ROUTES (only using basic authentication):
 
 GET /product -> Return a list of products avaiable.
 
