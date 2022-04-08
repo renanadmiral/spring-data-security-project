@@ -1,37 +1,30 @@
 package br.com.letscode.dataproject.product.model;
 
 import br.com.letscode.dataproject.purchaseproduct.model.PurchaseProduct;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//     @Column(
-//             nullable = false,
-//             unique = true,
-//             columnDefinition = "char(13) check(length(code_number) = 10)"
-//     )
     private String codeNumber;
-
-//     @Column(
-//             nullable = false,
-//             columnDefinition = "float check(price > 0)"
-//     )
     private BigDecimal price;
-
-//     @Column(nullable = false,
-//             columnDefinition = "int8 check(quantity >= 0)"
-//     )
     private Integer quantity;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PurchaseProduct> purchaseProductList;
+    private List<PurchaseProduct> purchaseProductList = new ArrayList<>();
 }

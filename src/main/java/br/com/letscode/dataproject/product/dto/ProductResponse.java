@@ -1,13 +1,16 @@
 package br.com.letscode.dataproject.product.dto;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import br.com.letscode.dataproject.product.model.Product;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Builder
-public class ProductResponse implements Serializable {
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class ProductResponse {
     private String codeNumber;
     private BigDecimal price;
     private Integer quantity;
@@ -15,7 +18,7 @@ public class ProductResponse implements Serializable {
     public static ProductResponse convert(Product product) {
         return new ProductResponse(
             product.getCodeNumber(), 
-            product.getPrice(), 
+            product.getPrice(),
             product.getQuantity()
         );
     }
