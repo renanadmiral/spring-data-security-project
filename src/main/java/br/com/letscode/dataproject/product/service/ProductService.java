@@ -1,8 +1,7 @@
 package br.com.letscode.dataproject.product.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.letscode.dataproject.product.dto.ProductDTO;
@@ -16,8 +15,16 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public List<ProductDTO> findAll() {
-        return productRepository.findAll().stream().map(ProductDTO::convert).toList();
+    public Page<ProductDTO> findByCodeNumber(String codeNumber, Pageable pageable) {
+        return productRepository.findByCodeNumber(codeNumber, pageable).map(ProductDTO::convert);
+    }
+
+    public Product findByCodeNumber(String codeNumber) {
+        return productRepository.findByCodeNumber(codeNumber);
+    }
+
+    public Page<ProductDTO> getAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable).map(ProductDTO::convert);
     }
 
     public ProductDTO createProduct(ProductDTO product) {
