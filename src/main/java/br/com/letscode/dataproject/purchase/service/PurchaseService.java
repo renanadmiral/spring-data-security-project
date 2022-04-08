@@ -7,9 +7,12 @@ import br.com.letscode.dataproject.product.model.Product;
 import br.com.letscode.dataproject.product.service.ProductService;
 import br.com.letscode.dataproject.purchase.dto.PurchaseDTO;
 import br.com.letscode.dataproject.purchase.dto.PurchaseProductDTO;
+import br.com.letscode.dataproject.purchase.dto.request.RequestPurchaseDTO;
 import br.com.letscode.dataproject.purchase.model.Purchase;
 import br.com.letscode.dataproject.purchase.repository.PurchaseRepository;
 import br.com.letscode.dataproject.purchaseproduct.model.PurchaseProduct;
+import br.com.letscode.dataproject.purchaseproduct.model.PurchaseProductKey;
+import br.com.letscode.dataproject.purchaseproduct.repository.PurchaseProductRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +36,8 @@ public class PurchaseService {
 
     private final ProductService productService;
 
+    private final PurchaseProductRepository purchaseProductRepository;
+
     public Page<PurchaseDTO> getAllPurchases(Pageable pageable) {
         return purchaseRepository.findAll(pageable).map(PurchaseDTO::convert);
     }
@@ -42,34 +49,35 @@ public class PurchaseService {
         return purchaseRepository.findByCustomer(customer, pageable).map(PurchaseDTO::convert);
     }
 
-    public PurchaseDTO createPurchase(PurchaseDTO purchase) throws Exception {
-        Customer customer = customerService.getCustomerByRegistration(purchase.getCustomerPurchase().getRegistrationNumber());
+    public PurchaseDTO createPurchase(RequestPurchaseDTO request) {
 
-        List<Product> productsSold = purchase.getProductsSold().stream().map(pProductDto -> productService.findByCodeNumber(pProductDto.getProduct().getCodeNumber())).collect(Collectors.toList());
-        BigDecimal purchaseValueCalculated = calculateValueOfPurchase(productsSold);
-        BigDecimal purchaseRequestValue = calculateValueOfPurchaseRequest(purchase.getProductsSold());
-        if(purchaseRequestValue.doubleValue() != purchaseValueCalculated.doubleValue()) {
-            throw new Exception("The total value of purchase dont't close with products value. Please contact the support!");
-        }
-        Purchase p = new Purchase(
-            purchase.getPurchaseDate(),
-            purchaseRequestValue,
-            customer
-        );
+        Customer customer = customerService.getCustomerByRegistration(request.getCustomerRegistration());
 
-        p = purchaseRepository.save(p);
+        Purchase newPurchase = purchaseRepository.save(new Purchase(
+                Calendar.getInstance(),
+                0.01f,
+                customer
+        ));
 
-        // adicionando os produtos no list de produtos da compra para salvar no final
-        p.getPurchaseProductList().addAll(productsSold);
-        
+        List<PurchaseProduct> purchaseProductList = request.getProducts().stream()
+                .map(p -> {
+                    Product nP = productService.findByCodeNumber(p.getCodeNumber());
+                    newPurchase.setValue(newPurchase.getValue() + (nP.getPrice() * p.getAmmount()));
 
-        // TODO precisa-se saber o momento de criar o purchase_product para poder iterar por cada produto, pegar seu id e código especifico e salvar na tupla
+                    return purchaseProductRepository.save(new PurchaseProduct(
+                            new PurchaseProductKey(newPurchase.getId(), nP.getId()),
+                            p.getAmmount(),
+                            newPurchase, nP
+                    ));
+                })
+                .collect(Collectors.toList())
+        ;
 
-        // p.getPurchaseProductList().stream().map(p -> {
-        //     p.setQuantity(p.getQuantity() - );
-        // }).collect(Collectors.toList());
+        newPurchase.setPurchaseProductList(purchaseProductList);
 
-        return null;
+        purchaseRepository.save(newPurchase);
+
+        return PurchaseDTO.convert(newPurchase);
     }
 
     private static BigDecimal calculateValueOfPurchaseRequest(List<PurchaseProductDTO> products) {

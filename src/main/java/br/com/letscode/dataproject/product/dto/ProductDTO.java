@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductDTO {
     private String codeNumber;
-    private BigDecimal price;
+    private Float price;
     private Integer quantity;
 
     public static ProductDTO convert(Product product) {

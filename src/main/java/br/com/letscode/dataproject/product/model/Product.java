@@ -22,7 +22,7 @@ public class Product {
     private String codeNumber;
     
     @NonNull
-    private BigDecimal price;
+    private Float price;
     
     @NonNull
     private Integer quantity;

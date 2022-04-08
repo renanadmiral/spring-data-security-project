@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Setter
 public class CustomerProductDTO {
     private String codeNumber;
-    private BigDecimal price;
+    private Float price;
     private Integer ammountSold;
 
     public static CustomerProductDTO convert(Product product) {
