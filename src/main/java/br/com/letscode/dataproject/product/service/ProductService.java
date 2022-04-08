@@ -1,6 +1,8 @@
 package br.com.letscode.dataproject.product.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import br.com.letscode.dataproject.product.dto.ProductDTO;

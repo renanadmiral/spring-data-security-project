@@ -1,7 +1,6 @@
-package br.com.letscode.dataproject.customer.dto;
+package br.com.letscode.dataproject.purchase.dto;
 
 import br.com.letscode.dataproject.purchase.model.Purchase;
-import br.com.letscode.dataproject.purchaseproduct.model.PurchaseProduct;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,18 +10,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter @Setter
-public class CustomerPurchaseDTO {
+public class PurchaseDTO {
     private Calendar purchaseDate;
     private BigDecimal value;
-    private List<CustomerPurchaseProductDTO> productsSold;
+    private List<PurchaseProductDTO> productsSold;
 
-    public static CustomerPurchaseDTO convert (Purchase purchase) {
-        CustomerPurchaseDTO dto = new CustomerPurchaseDTO();
+    public static PurchaseDTO convert (Purchase purchase) {
+        PurchaseDTO dto = new PurchaseDTO();
         dto.setPurchaseDate(purchase.getPurchaseDate());
         dto.setValue(purchase.getValue());
         dto.setProductsSold(purchase.getPurchaseProductList()
                 .stream()
-                .map(CustomerPurchaseProductDTO::convert)
+                .map(PurchaseProductDTO::convert)
                 .collect(Collectors.toList())
         );
         return dto;
