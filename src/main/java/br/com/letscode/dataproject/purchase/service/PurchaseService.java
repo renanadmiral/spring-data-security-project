@@ -67,7 +67,8 @@ public class PurchaseService {
                     return purchaseProductRepository.save(new PurchaseProduct(
                             new PurchaseProductKey(newPurchase.getId(), nP.getId()),
                             p.getAmmount(),
-                            newPurchase, nP
+                            newPurchase,
+                            nP
                     ));
                 })
                 .collect(Collectors.toList())
