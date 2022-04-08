@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductResponse {
+public class ProductDTO {
     private String codeNumber;
     private BigDecimal price;
     private Integer quantity;
 
-    public static ProductResponse convert(Product product) {
-        return new ProductResponse(
+    public static ProductDTO convert(Product product) {
+        return new ProductDTO(
             product.getCodeNumber(), 
             product.getPrice(),
             product.getQuantity()

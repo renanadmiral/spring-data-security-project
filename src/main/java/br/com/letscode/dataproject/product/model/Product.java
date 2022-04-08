@@ -1,10 +1,7 @@
 package br.com.letscode.dataproject.product.model;
 
 import br.com.letscode.dataproject.purchaseproduct.model.PurchaseProduct;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -13,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@RequiredArgsConstructor
 @NoArgsConstructor
 @Entity(name = "product")
 public class Product {
@@ -21,10 +18,17 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NonNull
     private String codeNumber;
+    
+    @NonNull
     private BigDecimal price;
+    
+    @NonNull
     private Integer quantity;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PurchaseProduct> purchaseProductList = new ArrayList<>();
+
+
 }
